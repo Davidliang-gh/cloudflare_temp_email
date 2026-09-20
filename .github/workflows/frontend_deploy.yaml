@@ -33,6 +33,7 @@ jobs:
           cd frontend/
           echo "${{ secrets.FRONTEND_ENV }}" > .env.prod
           pnpm install --no-frozen-lockfile
+          pnpm exec wrangler pages project create "$FRONTEND_NAME" --production-branch=production || true
           export frontend_branch="${{ secrets.FRONTEND_BRANCH }}"
           if [ -n "$frontend_branch" ]; then
             echo "Deploying branch $frontend_branch"
