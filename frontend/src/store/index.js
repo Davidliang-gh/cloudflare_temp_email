@@ -148,6 +148,27 @@ export const useGlobalState = createGlobalState(
             set: (v) => { _oauth2ClientIDSession.value = v; _oauth2ClientIDFallback.value = v; }
         });
         const browserFingerprint = ref('');
+        const localAddressCache = useLocalStorage('LocalAddressCache', []);
+        const logout = (redirectPath = '/') => {
+            [auth, adminAuth, jwt, userJwt, addressPassword,
+                userOauth2SessionState, userOauth2SessionClientID].forEach((credential) => {
+                credential.value = '';
+            });
+            localAddressCache.value = [];
+            userSettings.value.user_email = '';
+            userSettings.value.is_admin = false;
+            userSettings.value.access_token = null;
+            userSettings.value.new_user_token = null;
+            settings.value.address = '';
+            showAuth.value = false;
+            showAdminAuth.value = false;
+            showAddressCredential.value = false;
+            sendMailModel.value = {
+                fromName: '', toName: '', toMail: '', subject: '',
+                contentType: 'text', content: '',
+            };
+            window.location.replace(redirectPath);
+        };
         return {
             isDark,
             toggleDark,
@@ -190,6 +211,7 @@ export const useGlobalState = createGlobalState(
             useSimpleIndex,
             addressPassword,
             browserFingerprint,
+            logout,
         }
     },
 )
