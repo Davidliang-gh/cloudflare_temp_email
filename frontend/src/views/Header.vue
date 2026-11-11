@@ -7,7 +7,7 @@ import { useIsMobile } from '../utils/composables'
 import {
     DarkModeFilled, LightModeFilled, MenuFilled,
     AdminPanelSettingsFilled, MonitorHeartFilled,
-    KeyboardArrowDownOutlined, OpenInNewOutlined
+    KeyboardArrowDownOutlined, OpenInNewOutlined, LogoutOutlined
 } from '@vicons/material'
 import { Envelope, GithubAlt, Language, User } from '@vicons/fa'
 
@@ -24,7 +24,8 @@ const notification = useNotification()
 
 const {
     toggleDark, isDark, isTelegram, showAdminPage,
-    showAuth, auth, loading, openSettings, preferredLocale, userSettings
+    showAuth, auth, loading, openSettings, preferredLocale, userSettings,
+    jwt, userJwt, adminAuth, logout
 } = useGlobalState()
 const route = useRoute()
 const router = useRouter()
@@ -67,6 +68,7 @@ const currentLocaleLabel = computed(() => {
 });
 
 const { t, locale } = useScopedI18n('views.Header')
+const { t: accountT } = useScopedI18n('views.user.UserSettings')
 
 const changeLocale = async (lang) => {
     if (!isSupportedLocale(lang)) {
@@ -189,6 +191,20 @@ const menuOptions = computed(() => [
             }
         ),
         key: "theme"
+    },
+    {
+        label: () => h(NButton, {
+            text: true,
+            size: "small",
+            type: "warning",
+            style: "width: 100%",
+            onClick: () => logout(getRouterPathWithLang("/", locale.value)),
+        }, {
+            default: () => accountT("logout"),
+            icon: () => h(NIcon, { component: LogoutOutlined }),
+        }),
+        key: "logout",
+        show: !!(jwt.value || userJwt.value || adminAuth.value || auth.value),
     },
     {
         label: () => h(
