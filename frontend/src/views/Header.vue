@@ -7,7 +7,7 @@ import { useIsMobile } from '../utils/composables'
 import {
     DarkModeFilled, LightModeFilled, MenuFilled,
     AdminPanelSettingsFilled, MonitorHeartFilled,
-    KeyboardArrowDownOutlined, OpenInNewOutlined, LogoutOutlined
+    KeyboardArrowDownOutlined, OpenInNewOutlined
 } from '@vicons/material'
 import { Envelope, GithubAlt, Language, User } from '@vicons/fa'
 
@@ -201,7 +201,6 @@ const menuOptions = computed(() => [
             onClick: () => logout(getRouterPathWithLang("/", locale.value)),
         }, {
             default: () => accountT("logout"),
-            icon: () => h(NIcon, { component: LogoutOutlined }),
         }),
         key: "logout",
         show: !!(jwt.value || userJwt.value || adminAuth.value || auth.value),
