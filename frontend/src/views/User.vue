@@ -6,12 +6,13 @@ import { useGlobalState } from '../store'
 import AddressMangement from './user/AddressManagement.vue';
 import UserSettingsPage from './user/UserSettings.vue';
 import UserBar from './user/UserBar.vue';
+import CredentialMailBox from './Index.vue';
 import BindAddress from './user/BindAddress.vue';
 import UserMailBox from './user/UserMailBox.vue';
 import UserSendBox from './user/UserSendBox.vue';
 
 const {
-    userTab, globalTabplacement, userSettings, openSettings
+    userTab, globalTabplacement, userSettings, openSettings, jwt
 } = useGlobalState()
 
 const { t } = useScopedI18n('views.User')
@@ -20,7 +21,8 @@ const { t: userMailT } = useScopedI18n('views.user.UserSendBox')
 </script>
 
 <template>
-    <div>
+    <CredentialMailBox v-if="jwt && userSettings.fetched && !userSettings.user_email" />
+    <div v-else>
         <UserBar />
         <n-tabs v-if="userSettings.user_email" type="card" v-model:value="userTab" :placement="globalTabplacement">
             <n-tab-pane name="address_management" :tab="t('address_management')">
