@@ -6,8 +6,9 @@ import { NButton, NPopconfirm } from 'naive-ui'
 
 import { useGlobalState } from '../../store'
 import { api } from '../../api'
+import { getRouterPathWithLang } from '../../utils'
 
-const { userJwt, userSettings, } = useGlobalState()
+const { userSettings, logout: logoutSession } = useGlobalState()
 const message = useMessage()
 
 const showLogout = ref(false)
@@ -18,12 +19,11 @@ const showRenamePasskey = ref(false)
 const currentPasskeyId = ref(null)
 const currentPasskeyName = ref('')
 
-const { t } = useScopedI18n('views.user.UserSettings')
+const { t, locale } = useScopedI18n('views.user.UserSettings')
 
 
 const logout = async () => {
-    userJwt.value = '';
-    location.reload()
+    logoutSession(getRouterPathWithLang('/', locale.value))
 }
 
 const createPasskey = async () => {
