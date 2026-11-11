@@ -10,6 +10,8 @@
 
 ### Features
 
+- feat: |Login| Add a shared sign-out action for admin, user-account and mailbox sessions, clearing browser credentials and remembered mailboxes while retaining cloud bindings; show the active mailbox in the user center for credential-only sessions instead of the account-password login form
+
 - feat: |AI Extract| Add `AI_EXTRACT_MODE` to explicitly choose local rules only (`local`) or prefer Workers AI (`ai`); defaults to local rules when unset so mail content is never sent to AI. **Upgrade note**: deployments that relied on the Workers AI binding to enable AI extraction automatically must set `AI_EXTRACT_MODE = "ai"`
 
 ### Bug Fixes
